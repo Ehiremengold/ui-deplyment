@@ -4,7 +4,8 @@ import SendButton from '../components/SendButton';
 import { useNavigate } from 'react-router-dom';
 import TeamHeader from '../components/TeamHeader';
 import { AnimatePresence } from 'framer-motion';
-
+// eslint-disable-next-line no-unused-vars
+import {motion} from 'framer-motion';
 const Env = "Prod" // or "Dev"
 
 const websocketUrl = () => { 
@@ -166,7 +167,7 @@ const Collaboration = () => {
         </motion.p>
       </div>
 
-      <div className="border w-4/5 h-[800px] p-3 relative">
+      <div className="border border-gray-300 w-4/5 h-[800px] p-3 relative">
         <TeamHeader sendMessage={sendMessage} />
         <div className="h-[2px] bg-[#F26722] w-full mt-2"></div>
 
@@ -243,7 +244,7 @@ const Collaboration = () => {
         >
           <textarea
             ref={inputRef}
-            className="border flex-1 h-10 p-2 rounded-md shadow-md outline-[#F26722] resize-none scroll-none"
+            className="border border-gray-300 flex-1 h-10 p-2 rounded-md shadow-sm outline-[#F26722] resize-none scroll-none"
             value={text}
             placeholder="Start typing..."
             onChange={handleChange}

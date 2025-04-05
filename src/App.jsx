@@ -1,4 +1,5 @@
 import Entrance from './pages/Entrance.jsx'
+
 const App = () => {
   return (
     <main>

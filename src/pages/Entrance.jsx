@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { assignAvatar } from '../lib/utils';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
 const Entrance = () => {
   const [input, setInput] = useState('');
