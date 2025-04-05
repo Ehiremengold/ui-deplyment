@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { assignAvatar } from '../lib/utils';
 
 const Entrance = () => {
@@ -13,13 +12,14 @@ const Entrance = () => {
       setError('Please enter your name to continue.');
       return;
     }
+    // eslint-disable-next-line no-unused-vars
     const avatar = assignAvatar(input.trim());
     // Save the name and avatar in localStorage
     localStorage.setItem('userName', input.trim());
     navigate('/collaboration');
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent) => {
+  const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleJoin();
     }

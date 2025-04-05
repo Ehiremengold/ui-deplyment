@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import React from 'react';
+
 import SendButton from '../components/SendButton';
 import { useNavigate } from 'react-router-dom';
 import TeamHeader from '../components/TeamHeader';
-import { Message, SendMessageData } from '../lib/types';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 const Env = "Prod" // or "Dev"
 
@@ -14,9 +13,9 @@ const websocketUrl = () => {
 
 const Collaboration = () => {
   const [text, setText] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
-  const socketRef = useRef<WebSocket | null>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [messages, setMessages] = useState([]);
+  const socketRef = useRef(null);
+  const inputRef = useRef(null);
   const navigate = useNavigate();
 
   // Get user name from localStorage
@@ -95,7 +94,7 @@ const Collaboration = () => {
     inputRef?.current?.focus();
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (event) => {
     setText(event.target.value);
   };
 
@@ -106,27 +105,21 @@ const Collaboration = () => {
     }
   };
 
-  const handleEdit = (id: string, oldText: string) => {
+  const handleEdit = (id, oldText) => {
     const newText = prompt('Edit your message:', oldText);
     if (newText) {
       sendMessage({ type: 'EDIT', id, newText });
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this message?')) {
       sendMessage({ type: 'DELETE', id });
     }
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevents the default behavior of adding a new line
-      handleSend();
-    }
-  };
 
-  const sendMessage = (data: SendMessageData) => {
+  const sendMessage = (data) => {
     // Retrieve avatar and user name from localStorage
     const userName = localStorage.getItem('userName');
     const avatarUrl = localStorage.getItem(`avatar-${userName}`);
@@ -191,7 +184,7 @@ const Collaboration = () => {
           )}
 
           <AnimatePresence>
-            {messages.map((message, index) => (
+            {messages.map((message) => (
               <motion.div
                 key={message.id}
                 className={`flex items-center gap-3 ${
