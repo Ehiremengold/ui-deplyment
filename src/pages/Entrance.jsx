@@ -29,13 +29,13 @@ const Entrance = () => {
 
   return (
     <motion.section
-      className="h-screen grid place-content-center mx-auto text-center max-w-4xl"
+      className="h-screen grid place-content-center mx-auto text-center max-w-4xl  px-2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <motion.h1
-        className="text-6xl text-[#F26722] font-bold"
+        className="text-4xl lg:text-6xl text-[#F26722] font-bold"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
