@@ -16,8 +16,9 @@ const Entrance = () => {
       setError("Please enter your name to continue.");
       return;
     }
-    // eslint-disable-next-line no-unused-vars
-    const avatar = assignAvatar(input.trim());
+    // Assign an avatar for users
+    assignAvatar(input.trim());
+    
     // Save the name and avatar in localStorage
     localStorage.setItem("userName", input.trim());
 
@@ -31,10 +32,10 @@ const Entrance = () => {
       navigate("/collaboration");
     };
 
-    // fallback if socket fails to open
+    //  loading timeout for socket connection 
     setTimeout(() => {
       navigate("/collaboration");
-    }, 20000);
+    }, 30000);
   };
 
   const handleKeyPress = (event) => {
