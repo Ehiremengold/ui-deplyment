@@ -34,7 +34,7 @@ const Entrance = () => {
     // fallback if socket fails to open
     setTimeout(() => {
       navigate("/collaboration");
-    }, 50000);
+    }, 20000);
   };
 
   const handleKeyPress = (event) => {
@@ -53,7 +53,7 @@ const Entrance = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.h1
-        className="text-4xl lg:text-6xl text-[#F26722] font-bold"
+        className="text-4xl lg:text-6xl text-[#F26722] font-bold whitespace-nowrap"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
@@ -64,7 +64,7 @@ const Entrance = () => {
         </span>
       </motion.h1>
       <motion.p
-        className="mt-2 text-gray-400 text-xl font-normal"
+        className="mt-2 text-gray-400 text-lg md:text-xl font-normal"
         initial={{ opacity: 0, x: -30 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}

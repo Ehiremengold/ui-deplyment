@@ -1,4 +1,4 @@
-import "../loader.css"; 
+import "../loader.css";
 
 const Loader = () => {
   return (
@@ -14,6 +14,9 @@ const Loader = () => {
           SBSC
         </text>
       </svg>
+      <p className="text-center text-white font-bold text-sm lg:text-xl">
+        waking up server...
+      </p>
     </div>
   );
 };
