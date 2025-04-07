@@ -1,37 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-import SendButton from '../components/SendButton';
-import { useNavigate } from 'react-router-dom';
-import TeamHeader from '../components/TeamHeader';
-import { AnimatePresence } from 'framer-motion';
+import SendButton from "../components/SendButton";
+import { useNavigate } from "react-router-dom";
+import TeamHeader from "../components/TeamHeader";
+import { AnimatePresence } from "framer-motion";
 // eslint-disable-next-line no-unused-vars
-import {motion} from 'framer-motion';
-const Env = "Prod" // or "Dev"
+import { motion } from "framer-motion";
+const Env = "Prod"; // or "Dev"
 
-const websocketUrl = () => { 
-  return Env === "Prod" ? 'wss://sbsc-project-server.onrender.com' : 'ws://localhost:8000'
-}
+const websocketUrl = () => {
+  return Env === "Prod"
+    ? "wss://sbsc-project-server.onrender.com"
+    : "ws://localhost:8000";
+};
 
 const Collaboration = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
   // Get user name from localStorage
-  const name = localStorage.getItem('userName');
-  const avatar = localStorage.getItem('userAvatar');
+  const name = localStorage.getItem("userName");
+  const avatar = localStorage.getItem("userAvatar");
 
   useEffect(() => {
-    
     const socket = new WebSocket(websocketUrl());
 
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log('WebSocket Connected');
-      console.log('WebSocket Ready State:', socket.readyState); // debugging line
+      console.log("WebSocket Connected");
+      console.log("WebSocket Ready State:", socket.readyState); // debugging line
     };
 
     socket.onmessage = async (event) => {
@@ -41,16 +42,16 @@ const Collaboration = () => {
         const data = JSON.parse(dataText);
 
         switch (data.type) {
-          case 'INIT':
-            console.log('INIT received:', data.messages);
+          case "INIT":
+            console.log("INIT received:", data.messages);
             setMessages(data.messages);
             break;
 
-          case 'NEW_MESSAGE':
+          case "NEW_MESSAGE":
             setMessages((prev) => [...prev, data.message]);
             break;
 
-          case 'EDIT_MESSAGE':
+          case "EDIT_MESSAGE":
             setMessages((prev) =>
               prev.map((msg) =>
                 msg.id === data.id ? { ...msg, text: data.newText } : msg
@@ -58,30 +59,32 @@ const Collaboration = () => {
             );
             break;
 
-          case 'DELETE_MESSAGE':
+          case "DELETE_MESSAGE":
             setMessages((prev) => prev.filter((msg) => msg.id !== data.id));
             break;
 
-          case 'CLEAR_ALL':
+          case "CLEAR_ALL":
             setMessages([]);
             break;
 
           default:
-            console.warn('Unknown message type:', data.type);
+            console.warn("Unknown message type:", data.type);
         }
       } catch (err) {
-        console.error('Failed to parse message', err);
+        console.error("Failed to parse message", err);
       }
     };
 
     socket.onerror = (error) => {
-      console.error('WebSocket Error:', error);
-      alert("The chat server might be waking up. Please wait a few seconds and refresh.");
+      console.error("WebSocket Error:", error);
+      alert(
+        "The chat server might be waking up. Please wait a few seconds and refresh."
+      );
     };
 
     // WebSocket connection closed
     socket.onclose = () => {
-      console.log('WebSocket Disconnected');
+      console.log("WebSocket Disconnected");
     };
 
     // Cleanup WebSocket on component unmount
@@ -102,33 +105,32 @@ const Collaboration = () => {
 
   const handleSend = () => {
     if (text.trim()) {
-      sendMessage({ type: 'SEND', user: name || '', message: text });
-      setText('');
+      sendMessage({ type: "SEND", user: name || "", message: text });
+      setText("");
     }
   };
 
   const handleEdit = (id, oldText) => {
-    const newText = prompt('Edit your message:', oldText);
+    const newText = prompt("Edit your message:", oldText);
     if (newText) {
-      sendMessage({ type: 'EDIT', id, newText });
+      sendMessage({ type: "EDIT", id, newText });
     }
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
-      sendMessage({ type: 'DELETE', id });
+    if (window.confirm("Are you sure you want to delete this message?")) {
+      sendMessage({ type: "DELETE", id });
     }
   };
 
-
   const sendMessage = (data) => {
     // Retrieve avatar and user name from localStorage
-    const userName = localStorage.getItem('userName');
+    const userName = localStorage.getItem("userName");
     const avatarUrl = localStorage.getItem(`avatar-${userName}`);
 
     // Ensure the user has a name and avatar
     if (!userName || !avatarUrl) {
-      console.warn('User name or avatar is missing!');
+      console.warn("User name or avatar is missing!");
       return;
     }
 
@@ -141,7 +143,7 @@ const Collaboration = () => {
 
     // Check if WebSocket is ready
     if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
-      console.warn('WebSocket not ready. Message not sent:', messageData);
+      console.warn("WebSocket not ready. Message not sent:", messageData);
       return;
     }
 
@@ -151,7 +153,7 @@ const Collaboration = () => {
 
   return (
     <motion.main
-      className="flex flex-col gap-10 h-screen max-w-4xl mx-auto my-auto place-items-center mt-10"
+      className="flex flex-col gap-10 h-screen max-w-4xl  mx-auto place-items-center mt-10 p-2"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -163,12 +165,12 @@ const Collaboration = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          Share <span className="font-bold">&#183;</span> Collaborate{' '}
+          Share <span className="font-bold">&#183;</span> Collaborate{" "}
           <span className="font-bold">&#183;</span> Build
         </motion.p>
       </div>
 
-      <div className="border border-gray-300 w-4/5 h-[800px] p-3 relative">
+      <div className="border w-full border-gray-300 h-[800px] p-3 relative">
         <TeamHeader sendMessage={sendMessage} />
         <div className="h-[2px] bg-[#F26722] w-full mt-2"></div>
 
@@ -190,7 +192,7 @@ const Collaboration = () => {
               <motion.div
                 key={message.id}
                 className={`flex items-center gap-3 ${
-                  message.user === name ? 'justify-end' : 'justify-start'
+                  message.user === name ? "justify-end" : "justify-start"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -208,8 +210,8 @@ const Collaboration = () => {
                   <div className="flex justify-between items-center text-xs text-gray-200 gap-9">
                     <span>
                       {new Date(message.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </span>
 
@@ -250,7 +252,7 @@ const Collaboration = () => {
             placeholder="Start typing..."
             onChange={handleChange}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
+              if (e.key === "Enter" && !e.shiftKey) {
                 handleSend();
                 e.preventDefault(); // Prevents the default behavior of adding a new line
               }
