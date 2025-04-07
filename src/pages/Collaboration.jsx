@@ -76,6 +76,7 @@ const Collaboration = () => {
 
     socket.onerror = (error) => {
       console.error('WebSocket Error:', error);
+      alert("The chat server might be waking up. Please wait a few seconds and refresh.");
     };
 
     // WebSocket connection closed
